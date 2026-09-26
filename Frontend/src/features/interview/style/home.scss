@@ -378,21 +378,48 @@
 // }
 
 // ── Variables ────────────────────────────────────────────────────────────────
-$bg-page:        #0d1117;
-$bg-card:        #161b22;
-$bg-panel:       #1c2230;
-$bg-input:       #1e2535;
-$border-color:   #2a3348;
-$text-primary:   #e6edf3;
-$text-muted:     #7d8590;
-$accent:         #ff2d78;
-$accent-alt:     #ff6b9d;
-$badge-required: #ff2d78;
-$badge-best:     #ff2d78;
-$info-bg:        #1b2a4a;
-$info-border:    #2d4a7a;
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// $bg-page:        #0d1117;
+// $bg-card:        #161b22;
+// $bg-panel:       #1c2230;
+// $bg-input:       #1e2535;
+// $border-color:   #2a3348;
+// $text-primary:   #e6edf3;
+// $text-muted:     #7d8590;
+// $accent:         #ff2d78;
+// $accent-alt:     #ff6b9d;
+// $badge-required: #ff2d78;
+// $badge-best:     #ff2d78;
+// $info-bg:        #1b2a4a;
+// $info-border:    #2d4a7a;
+// $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+// ── Blue Theme ───────────────────────────────────────────────────────────────
 
+$navy:          #052650;
+$dark-blue:     #0A477A;
+$primary-blue:  #08699D;
+$muted-blue:    #6699B2;
+$light-blue:    #B6CEDD;
+
+$bg-page:       #F4F8FB;
+$bg-card:       #FFFFFF;
+$bg-panel:      #F8FBFD;
+$bg-input:      #FFFFFF;
+
+$border-color:  #C7D9E4;
+
+$text-primary:  #12304A;
+$text-muted:    #668096;
+
+$accent:        $primary-blue;
+$accent-alt:    $muted-blue;
+
+$badge-required: $primary-blue;
+$badge-best:     $dark-blue;
+
+$info-bg:       #EAF3F8;
+$info-border:   #B6CEDD;
+
+$font-stack:    system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 // ── Page Shell ───────────────────────────────────────────────────────────────
 .home-page {
     width: 100%;
@@ -433,6 +460,33 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     }
 }
 
+.page-header button {
+    margin-top: 14px;
+
+    padding: 8px 18px;
+
+    border: 1px solid $border-color;
+    border-radius: 7px;
+
+    background: #ffffff;
+    color: $dark-blue;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.page-header button:hover {
+    background: $light-blue;
+    border-color: $primary-blue;
+    color: $navy;
+}
 // ── Main Card ─────────────────────────────────────────────────────────────────
 .interview-card {
     width: 100%;
@@ -500,7 +554,8 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
     &__textarea {
         flex: 1;
-        width: 100%;
+        
+        
         background-color: $bg-input;
         border: 1px solid $border-color;
         border-radius: 0.5rem;
@@ -585,40 +640,54 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 }
 
 .dropzone {
+    min-height: 130px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
-    padding: 1.5rem 1rem;
-    background-color: $bg-input;
-    border: 2px dashed $border-color;
-    border-radius: 0.6rem;
+
+    padding: 20px;
+
+    border: 2px dashed $light-blue;
+    border-radius: 10px;
+
+    background: #f8fbfd;
+
     cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
 
-    &:hover {
-        border-color: $accent;
-        background-color: rgba($accent, 0.05);
-    }
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
 
-    &__icon {
-        color: $accent;
-        margin-bottom: 0.25rem;
-    }
+.dropzone:hover {
+    border-color: $primary-blue;
+    background: #eef7fb;
+    transform: translateY(-1px);
+}
 
-    &__title {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: $text-primary;
-        margin: 0;
-    }
+.dropzone__icon {
+    color: $primary-blue;
+    margin-bottom: 8px;
+}
 
-    &__subtitle {
-        font-size: 0.75rem;
-        color: $text-muted;
-        margin: 0;
-    }
+.dropzone__title {
+    margin: 0;
+
+    color: $text-primary;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.dropzone__subtitle {
+    margin: 6px 0 0;
+
+    color: $text-muted;
+    font-size: 12px;
+    text-align: center;
 }
 
 // ── OR Divider ────────────────────────────────────────────────────────────────
@@ -661,6 +730,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
     &__icon {
         flex-shrink: 0;
+       
         color: #4a90e2;
         margin-top: 1px;
     }
@@ -668,39 +738,67 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     p {
         margin: 0;
         font-size: 0.8rem;
-        color: #8ab4f8;
+        color: #71a2f3;
         line-height: 1.5;
 
         strong {
-            color: $text-primary;
+              color: #2871e8;
         }
     }
 }
 
 // ── Generate Button ───────────────────────────────────────────────────────────
 .generate-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, $accent 0%, scale($accent, 10%) 100%);
-    color: #d4c1c1;
-    font-size: 0.9rem;
-    background-color: #2e3135;
-    font-weight: 600;
+    justify-content: center;
+    gap: 9px;
+
+    min-width: 280px;
+    padding: 13px 22px;
+
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 9px;
+
+    background: linear-gradient(
+        135deg,
+        $dark-blue,
+        $primary-blue
+    );
+
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-    font-family: $font-stack;
 
-    &:hover {
-        opacity: 0.9;
-    }
+    box-shadow: 0 5px 14px rgba(8, 105, 157, 0.22);
 
-    &:active {
-        transform: scale(0.98);
-    }
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.generate-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(8, 105, 157, 0.30);
+}
+
+.generate-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.generate-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    box-shadow: none;
+}
+
+.generate-btn svg {
+    width: 16px;
+    height: 16px;
 }
 
 .recent-reports{
@@ -740,17 +838,50 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
 // ── Page Footer ───────────────────────────────────────────────────────────────
 .page-footer {
-    display: flex;
-    gap: 1.5rem;
+    // display: flex;
+    // gap: 1.5rem;
 
-    a {
-        font-size: 0.8rem;
-        color: $text-muted;
-        text-decoration: none;
-        transition: color 0.2s;
+    // a {
+    //     font-size: 0.8rem;
+    //     color: $text-muted;
+    //     text-decoration: none;
+    //     transition: color 0.2s;
 
-        &:hover {
-            color: $text-primary;
-        }
+    //     &:hover {
+    //         color: $text-primary;
+    //     }
+    // }
+    display: grid;
+    grid-template-columns: minmax(130px, 1fr) minmax(180px, 1.2fr) auto;
+    align-items: center;
+    gap: 16px;
+
+    padding: 16px 22px;
+
+    border-top: 1px solid $border-color;
+    background: #ffffff;
+}
+.error-message {
+    margin: 0;
+    padding: 9px 12px;
+width: 250px;
+    color: #b42318;
+    background: #fff1f0;
+
+    border: 1px solid #f3b7b2;
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+ }
+@media (max-width: 700px) {
+    .interview-card__footer {
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
+
+     .generate-btn {
+         width: 100%;
+     }
 }

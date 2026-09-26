@@ -1,5 +1,5 @@
 import { getAllInterviewReports, generateInterviewReport, getInterviewReportById, generateResumePdf } from "../services/interview.api"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { InterviewContext } from "../interview.context"
 import { useParams } from "react-router"
 
@@ -13,23 +13,43 @@ export const useInterview = () => {
         throw new Error("useInterview must be used within an InterviewProvider")
     }
 
-    const { loading, setLoading, report, setReport, reports, setReports } = context
+   const { loading, setLoading, report, setReport, reports, setReports } = context
 
-    const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
-            setReport(response.interviewReport)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
+const [downloading, setDownloading] = useState(false)
+    // const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
+    //     setLoading(true)
+    //     let response = null
+    //     try {
+    //         response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
+    //         setReport(response.interviewReport)
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+
+    //     return response.interviewReport
+    // }
+const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
+    setLoading(true)
+
+    try {
+        const response = await generateInterviewReport({
+            jobDescription,
+            selfDescription,
+            resumeFile
+        })
+
+        setReport(response.interviewReport)
 
         return response.interviewReport
+    } catch (error) {
+        console.log(error)
+        throw error
+    } finally {
+        setLoading(false)
     }
-
+}
     const getReportById = async (interviewId) => {
         setLoading(true)
         let response = null
@@ -59,24 +79,31 @@ export const useInterview = () => {
         return response.interviewReports
     }
 
-    const getResumePdf = async (interviewReportId) => {
-        setLoading(true)
-        let response = null
-        try {
-            response = await generateResumePdf({ interviewReportId })
-            const url = window.URL.createObjectURL(new Blob([ response ], { type: "application/pdf" }))
-            const link = document.createElement("a")
-            link.href = url
-            link.setAttribute("download", `resume_${interviewReportId}.pdf`)
-            document.body.appendChild(link)
-            link.click()
-        }
-        catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
+   const getResumePdf = async (interviewReportId) => {
+    setDownloading(true)
+
+    try {
+        const response = await generateResumePdf({ interviewReportId })
+
+        const url = window.URL.createObjectURL(
+            new Blob([response], { type: "application/pdf" })
+        )
+
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute("download", `resume_${interviewReportId}.pdf`)
+
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+
+        window.URL.revokeObjectURL(url)
+    } catch (error) {
+        console.log(error)
+    } finally {
+        setDownloading(false)
     }
+}
 
     useEffect(() => {
         if (interviewId) {
@@ -86,6 +113,14 @@ export const useInterview = () => {
         }
     }, [ interviewId ])
 
-    return { loading, report, reports, generateReport, getReportById, getReports, getResumePdf }
-
+    return {
+    loading,
+    downloading,
+    report,
+    reports,
+    generateReport,
+    getReportById,
+    getReports,
+    getResumePdf
+}
 }
