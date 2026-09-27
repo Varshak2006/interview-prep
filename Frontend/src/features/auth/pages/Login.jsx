@@ -11,16 +11,31 @@ const Login = () => {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
-
+    const [error, setError] = useState("")
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setError("")
+        if (!email || !password) {
+    setError("Please enter email and password")
+    return
+}
+        try{
         await handleLogin({email,password})
         navigate('/')
+        }
+        catch(err){
+            console.log(err)
+            setError("Invalid email or password")
+        }
     }
 
-    if(loading){
-        return (<main><h1>Loading.......</h1></main>)
-    }
+//     if (loading) {
+//     return (
+//         <main>
+//             <h1>logging in...</h1>
+//         </main>
+//     )
+// }
 
 
     return (
@@ -40,7 +55,13 @@ const Login = () => {
                             onChange={(e) => { setPassword(e.target.value) }}
                             type="password" id="password" name='password' placeholder='Enter password' />
                     </div>
-                    <button className='button primary-button' >Login</button>
+                    {error && <p className="error-message">{error}</p>}
+                   <button
+    className='button primary-button'
+    disabled={loading}
+>
+    {loading ? "Logging in..." : "Login"}
+</button>
                 </form>
                 <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
             </div>

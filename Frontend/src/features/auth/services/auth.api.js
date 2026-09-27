@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+   baseURL: "https://interview-prep-backend-y382.onrender.com",
     withCredentials: true
 })
 
@@ -18,6 +18,7 @@ export async function register({ username, email, password }) {
     } catch (err) {
 
         console.log(err)
+        throw err
 
     }
 
@@ -35,6 +36,7 @@ export async function login({ email, password }) {
 
     } catch (err) {
         console.log(err)
+        throw err
     }
 
 }
@@ -50,17 +52,11 @@ export async function logout() {
 
     }
 }
-
 export async function getMe() {
-
     try {
-
         const response = await api.get("/api/auth/get-me")
-
         return response.data
-
     } catch (err) {
-        console.log(err)
+        throw err
     }
-
 }
